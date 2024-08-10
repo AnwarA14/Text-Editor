@@ -30,7 +30,7 @@ public final class TextEditor extends JFrame implements ActionListener {
     public TextEditor() {run();}
 
     public void run() {
-        frame = new Jframe("Text Editor");
+        frame = new JFrame("Text Editor");
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -65,9 +65,53 @@ public final class TextEditor extends JFrame implements ActionListener {
         menu_file.add(menuitem_save);
         menu_file.add(menuitem_quit);
 
-	    frame.setJMenuBar(menu_main);
+	    frame.setJMenuBar(menu_main);   
 
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String ingest = null;
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        jfc.setDialogTitle("Choose destination.");
+        jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
+        String ae = e.getActionCommand();
+        if (ae.equals("Open")) {
+            rtnVal = jfc.showOpenDialog(null);
+            if (rtnVal == JFileChooser.APPROVE_OPTION) {
+            	File f = new File(jfc.getSelectedFile().getAbsolutePath());
+            	try{
+            		FileReader read = new FileReader(f);
+            		Scanner scan = new Scanner(read);
+            		while(scan.hasNextLine()){
+            			String line = scan.nextLine() + "\n";
+            			ingest = ingest + line;
+            		}
+            		area.setText(ingest);
+            	} catch ( FileNotFoundException ex) { 
+            		ex.printStackTrace(); 
+            	}
+            }
+        // SAVE
+        } else if (ae.equals("Save")) {
+            rtnVal = jfc.showSaveDialog(null);
+            try {
+                File f = new File(jfc.getSelectedFile().getAbsolutePath());
+                FileWriter out = new FileWriter(f);
+                out.write(area.getText());
+                out.close();
+            } catch (FileNotFoundException ex) {
+                Component f = null;
+                JOptionPane.showMessageDialog(f,"File not found.");
+            } catch (IOException ex) {
+                Component f = null;
+                JOptionPane.showMessageDialog(f,"Error.");
+            }
+        } else if (ae.equals("New")) {
+            area.setText("");
+        } else if (ae.equals("Quit")) { System.exit(0); }
+      }
     }
 
     
-}

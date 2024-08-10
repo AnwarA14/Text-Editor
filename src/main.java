@@ -1,7 +1,7 @@
 package textEditor;
 
-public class Main {
+public class main {
     public static void main(String[] args) {
-        TextEditOR runner = new TextEditOR();
+        TextEditor runner = new TextEditor();
     }
 }
