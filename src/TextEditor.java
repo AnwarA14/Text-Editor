@@ -1,3 +1,5 @@
+package textEditor;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -29,6 +31,41 @@ public final class TextEditor extends JFrame implements ActionListener {
 
     public void run() {
         frame = new Jframe("Text Editor");
+
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(TextEditor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        area = new JTextArea();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(area);
+        frame.setSize(640,480);
+        frame.setVisible(true);
+
+        JMenuBar menu_main = new JMenuBar();
+
+	    JMenu menu_file = new JMenu("File");
+
+	    JMenuItem menuitem_new = new JMenuItem("New");
+        JMenuItem menuitem_open = new JMenuItem("Open");
+        JMenuItem menuitem_save = new JMenuItem("Save");
+        JMenuItem menuitem_quit = new JMenuItem("Quit");
+
+	    menuitem_new.addActionListener(this);
+        menuitem_open.addActionListener(this);
+        menuitem_save.addActionListener(this);
+        menuitem_quit.addActionListener(this);
+
+	    menu_main.add(menu_file);
+
+	    menu_file.add(menuitem_new);
+        menu_file.add(menuitem_open);
+        menu_file.add(menuitem_save);
+        menu_file.add(menuitem_quit);
+
+	    frame.setJMenuBar(menu_main);
 
     }
 
